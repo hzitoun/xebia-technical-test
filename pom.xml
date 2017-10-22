@@ -12,17 +12,9 @@
 	<description>Xebia Technical Test</description>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.6</version>
-		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -30,9 +22,7 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -48,15 +38,24 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.2</version>
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.hzitoun.xebia.test.xtt.XttApplication</mainClass>
+							<mainClass>com.hzitoun.xtt.XttApplication</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
+	<contributors>
+		<contributor>
+			<name>Hamed ZITOUN</name>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>+2</timezone>
+		</contributor>
+	</contributors>
 </project>

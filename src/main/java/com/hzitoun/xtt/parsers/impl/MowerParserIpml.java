@@ -11,8 +11,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.hzitoun.xtt.app.MowerAppCharacteristics;
 import com.hzitoun.xtt.beans.Mower;
 import com.hzitoun.xtt.beans.Position;
@@ -39,22 +37,22 @@ public class MowerParserIpml implements IMowerParser {
 			if (Utils.isNotEmpty(lines)) {
 				for (int index = 0; index < lines.size(); index++) {
 					final String line = lines.get(index);
-					if (StringUtils.isBlank(line)) {
+					if (Utils.isBlank(line)) {
 						throw new MowerAppException("Your file is not well formated at line " + (index + 1));
 					}
 					if (index == 0) {
 						final String[] resolution = line.split(" ");
-						if (resolution.length == 2 && StringUtils.isNumeric(resolution[0])
-								&& StringUtils.isNumeric(resolution[1])) {
+						if (resolution.length == 2 && Utils.isNumeric(resolution[0])
+								&& Utils.isNumeric(resolution[1])) {
 							surface = new Surface(Integer.parseInt(resolution[0]), Integer.parseInt(resolution[1]));
 						} else {
 							throw new MowerAppException("Your file is not well formated at line " + (index + 1));
 						}
 					} else if (index > 0 && index % 2 == 1) {
 						final String[] mowerCaracteristics = line.split(" ");
-						if (mowerCaracteristics.length == 3 && StringUtils.isNumeric(mowerCaracteristics[0])
-								&& StringUtils.isNumeric(mowerCaracteristics[1])
-								&& StringUtils.isAlpha(mowerCaracteristics[2])
+						if (mowerCaracteristics.length == 3 && Utils.isNumeric(mowerCaracteristics[0])
+								&& Utils.isNumeric(mowerCaracteristics[1])
+								&& Utils.isAlpha(mowerCaracteristics[2])
 								&& EnumDirection.isDirectionValid(mowerCaracteristics[2])) {
 							final EnumDirection direction = EnumDirection.valueOf(mowerCaracteristics[2].toUpperCase());
 							final Position position = new Position(Integer.parseInt(mowerCaracteristics[0]),
@@ -90,7 +88,9 @@ public class MowerParserIpml implements IMowerParser {
 				throw new MowerAppException("Your file seems to be empty");
 			}
 		} catch (final IOException e) {
+			e.printStackTrace();
 			throw new MowerAppException("An exception has occurred when reading the file");
+			
 		}
 	}
 
