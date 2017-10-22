@@ -18,10 +18,8 @@ public class XttApplication {
 		final MowerApp app = MowerAppFactory.getInstance(parser);
 		try {
 			app.start(fileInput);
-			app.end();
 		} catch (final MowerAppException e) {
-			System.err.println("error");
-			e.printStackTrace();
+			System.err.println(e);
 		}
 	}
 }

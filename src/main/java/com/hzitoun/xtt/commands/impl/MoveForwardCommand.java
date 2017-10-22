@@ -1,6 +1,7 @@
 package com.hzitoun.xtt.commands.impl;
 
 import com.hzitoun.xtt.beans.Mower;
+import com.hzitoun.xtt.beans.Surface;
 import com.hzitoun.xtt.commands.Command;
 
 public class MoveForwardCommand implements Command {
@@ -11,8 +12,8 @@ public class MoveForwardCommand implements Command {
 		this.mower = mower;
 	}
 
-	public void execute() {
-		mower.moveForward();
+	public void execute(final Surface surface) {
+		mower.moveForward(surface);
 	}
 
 	@Override

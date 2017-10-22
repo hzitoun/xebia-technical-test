@@ -21,6 +21,43 @@ public class MowerAppCharacteristics {
 		this.surface = surface;
 		this.mowers = mowers;
 	}
+	
+
+	/**
+	 * @return the surface
+	 */
+	public final Surface getSurface() {
+		return surface;
+	}
+
+
+
+	/**
+	 * @param surface the surface to set
+	 */
+	public final void setSurface(Surface surface) {
+		this.surface = surface;
+	}
+
+
+
+	/**
+	 * @return the mowers
+	 */
+	public final Map<Mower, List<Command>> getMowers() {
+		return mowers;
+	}
+
+
+
+	/**
+	 * @param mowers the mowers to set
+	 */
+	public final void setMowers(Map<Mower, List<Command>> mowers) {
+		this.mowers = mowers;
+	}
+
+
 
 	@Override
 	public String toString() {

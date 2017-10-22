@@ -27,6 +27,8 @@ import com.hzitoun.xtt.utils.Utils;
 
 public class MowerParserIpml implements IMowerParser {
 
+	private static final String MOWER_SEPARATOR = " ";
+
 	@Override
 	public final MowerAppCharacteristics parseFile(final String fileUrl) throws MowerAppException {
 		final Path inputFile = new File(fileUrl).toPath();
@@ -58,7 +60,7 @@ public class MowerParserIpml implements IMowerParser {
 
 	@Override
 	public final Surface parseSurface(final int index, final String line) throws MowerAppException {
-		final String[] resolution = line.split(" ");
+		final String[] resolution = line.split(MOWER_SEPARATOR);
 		if (resolution.length == 2 && Utils.isNumeric(resolution[0]) && Utils.isNumeric(resolution[1])) {
 			return new Surface(Integer.parseInt(resolution[0]), Integer.parseInt(resolution[1]));
 		} else {
@@ -68,7 +70,7 @@ public class MowerParserIpml implements IMowerParser {
 
 	@Override
 	public final Mower parseMower(final int index, final String line) throws MowerAppException {
-		final String[] mowerCaracteristics = line.split(" ");
+		final String[] mowerCaracteristics = line.split(MOWER_SEPARATOR);
 		if (mowerCaracteristics.length == 3 && Utils.isNumeric(mowerCaracteristics[0])
 				&& Utils.isNumeric(mowerCaracteristics[1]) && Utils.isAlpha(mowerCaracteristics[2])
 				&& EnumDirection.isDirectionValid(mowerCaracteristics[2])) {
