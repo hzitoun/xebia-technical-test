@@ -1,2 +1,2 @@
-# xebia-technical-test
+# Xebia-technical-test
 XTT - Xebia Technical Test
