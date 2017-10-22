@@ -9,10 +9,10 @@ public class MowerApp {
 	public MowerApp(final IMowerParser parser) {
 		this.parser = parser;
 	}
-
+	
 	public void start(final String inputFileUrl) throws MowerAppException {
 		System.out.println("Starting app");
-		System.out.println(parser.parse(inputFileUrl));
+		System.out.println(parser.parseFile(inputFileUrl));
 	}
 
 	public void end() {

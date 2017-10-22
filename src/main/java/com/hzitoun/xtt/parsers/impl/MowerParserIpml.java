@@ -27,7 +27,8 @@ import com.hzitoun.xtt.utils.Utils;
 
 public class MowerParserIpml implements IMowerParser {
 
-	public MowerAppCharacteristics parse(final String fileUrl) throws MowerAppException {
+	@Override
+	public MowerAppCharacteristics parseFile(final String fileUrl) throws MowerAppException {
 		final Path inputFile = new File(fileUrl).toPath();
 		Surface surface = null;
 		Mower mower = null;
@@ -38,34 +39,36 @@ public class MowerParserIpml implements IMowerParser {
 				for (int index = 0; index < lines.size(); index++) {
 					final String line = lines.get(index);
 					if (Utils.isBlank(line)) {
-						throw new MowerAppException("Your file is not well formated at line " + (index + 1));
+						throw new MowerAppException(Utils.getMessage("parsing.line.error", (index + 1)));
 					}
 					if (index == 0) {
 						surface = parseSurface(index, line);
 					} else if (index > 0 && index % 2 == 1) {
-						mower = parseMower(lines, index, line);
+						mower = parseMower(index, line);
+						if (index + 1 >= lines.size()) {
+							mowers.put(mower, null);
+						}
 					} else if (index > 0 && index % 2 == 0) {
-						parseMowerCommands(mower, mowers, index, line);
+						mowers.put(mower, parseMowerCommands(mower, index, line));
 					}
 				}
 				final MowerAppCharacteristics app = new MowerAppCharacteristics(surface, mowers);
 				return app;
 			} else {
-				throw new MowerAppException("Your file seems to be empty");
+				throw new MowerAppException(Utils.getMessage("parsing.file.empty.error"));
 			}
 		} catch (final IOException e) {
-			e.printStackTrace();
-			throw new MowerAppException("An exception has occurred when reading the file");
-
+			throw new MowerAppException(Utils.getMessage("parsing.file.exception", fileUrl));
 		}
 	}
 
-	private final void parseMowerCommands(final Mower mower, final Map<Mower, List<Command>> mowers, int index,
-			final String line) throws MowerAppException {
+	@Override
+	public final List<Command> parseMowerCommands(final Mower mower, int index, final String line)
+			throws MowerAppException {
 		final List<Command> commands = new ArrayList<>();
 		for (final char commandAsChar : line.toCharArray()) {
 			if (!EnumAction.isActionValid(commandAsChar)) {
-				throw new MowerAppException("Your file is not well formated at line " + (index + 1));
+				throw new MowerAppException(Utils.getMessage("parsing.line.error", (index + 1)));
 			}
 			final EnumAction action = EnumAction.valueOf(String.valueOf(commandAsChar));
 			if (EnumAction.A.equals(action)) {
@@ -76,11 +79,11 @@ public class MowerParserIpml implements IMowerParser {
 				commands.add(new TurnRightCommand(mower));
 			}
 		}
-		mowers.put(mower, commands);
+		return commands;
 	}
 
-	private final Mower parseMower(final List<String> lines, final int index, final String line)
-			throws MowerAppException {
+	@Override
+	public final Mower parseMower(final int index, final String line) throws MowerAppException {
 		final String[] mowerCaracteristics = line.split(" ");
 		if (mowerCaracteristics.length == 3 && Utils.isNumeric(mowerCaracteristics[0])
 				&& Utils.isNumeric(mowerCaracteristics[1]) && Utils.isAlpha(mowerCaracteristics[2])
@@ -88,21 +91,19 @@ public class MowerParserIpml implements IMowerParser {
 			final EnumDirection direction = EnumDirection.valueOf(mowerCaracteristics[2].toUpperCase());
 			final Position position = new Position(Integer.parseInt(mowerCaracteristics[0]),
 					Integer.parseInt(mowerCaracteristics[1]));
-			if (index + 1 >= lines.size()) {
-				throw new MowerAppException("Missing commands for the last mower ");
-			}
 			return new Mower(position, direction);
 		} else {
-			throw new MowerAppException("Your file is not well formated at line " + (index + 1));
+			throw new MowerAppException(Utils.getMessage("parsing.line.error", (index + 1)));
 		}
 	}
 
-	private final Surface parseSurface(final int index, final String line) throws MowerAppException {
+	@Override
+	public final Surface parseSurface(final int index, final String line) throws MowerAppException {
 		final String[] resolution = line.split(" ");
 		if (resolution.length == 2 && Utils.isNumeric(resolution[0]) && Utils.isNumeric(resolution[1])) {
 			return new Surface(Integer.parseInt(resolution[0]), Integer.parseInt(resolution[1]));
 		} else {
-			throw new MowerAppException("Your file is not well formated at line " + (index + 1));
+			throw new MowerAppException(Utils.getMessage("parsing.line.error", (index + 1)));
 		}
 	}
 
