@@ -92,9 +92,53 @@ public class Mower {
 			position.setX(position.getX() - 1);
 		}
 	}
+	
+	
 
 	public void printPositionAndOrientation() {
 		System.out.println(String.format("%d %d %s", position.getX(), position.getY(), direction));
+	}
+
+	/**
+	 * @return the direction
+	 */
+	public final EnumDirection getDirection() {
+		return direction;
+	}
+
+	/**
+	 * @param direction the direction to set
+	 */
+	public final void setDirection(EnumDirection direction) {
+		this.direction = direction;
+	}
+
+	/**
+	 * @return the position
+	 */
+	public final Position getPosition() {
+		return position;
+	}
+
+	/**
+	 * @param position the position to set
+	 */
+	public final void setPosition(Position position) {
+		this.position = position;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public final String getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public final void setId(String id) {
+		this.id = id;
 	}
 
 	@Override
