@@ -34,27 +34,26 @@ public class MowerParserIpml implements IMowerParser {
 		Mower mower = null;
 		final Map<Mower, List<Command>> mowers = new LinkedHashMap<>();
 		final List<String> lines = readLinesFromFile(inputFile);
-		if (Utils.isNotEmpty(lines)) {
-			for (int index = 0; index < lines.size(); index++) {
-				final String line = lines.get(index);
-				if (Utils.isBlank(line)) {
-					throw new MowerAppException(Utils.getMessage("parsing.line.error", (index + 1)));
-				}
-				if (index == 0) {
-					surface = parseSurface(index, line);
-				} else if (index > 0 && index % 2 == 1) {
-					mower = parseMower(index, line);
-					if (index + 1 >= lines.size()) {
-						mowers.put(mower, null);
-					}
-				} else if (index > 0 && index % 2 == 0) {
-					mowers.put(mower, parseMowerCommands(mower, index, line));
-				}
-			}
-			return new MowerAppCharacteristics(surface, mowers);
-		} else {
+		if (Utils.isEmpty(lines)) {
 			throw new MowerAppException(Utils.getMessage("parsing.file.empty.error"));
 		}
+		for (int index = 0; index < lines.size(); index++) {
+			final String line = lines.get(index);
+			if (Utils.isBlank(line)) {
+				throw new MowerAppException(Utils.getMessage("parsing.line.error", (index + 1)));
+			}
+			if (index == 0) {
+				surface = parseSurface(index, line);
+			} else if (index > 0 && index % 2 == 1) {
+				mower = parseMower(index, line);
+				if (index + 1 >= lines.size()) {
+					mowers.put(mower, null);
+				}
+			} else if (index > 0 && index % 2 == 0) {
+				mowers.put(mower, parseMowerCommands(mower, index, line));
+			}
+		}
+		return new MowerAppCharacteristics(surface, mowers);
 	}
 
 	@Override
