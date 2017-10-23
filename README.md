@@ -1,5 +1,8 @@
 [![Build Status](https://travis-ci.org/hzitoun/xebia-technical-test.svg?branch=master)](https://travis-ci.org/hzitoun/xebia-technical-test)
 # Xebia-Technical-Test
+
+ <img src="https://i.ebayimg.com/00/s/NDUwWDQzNw==/z/wzIAAOSwdGFYq24r/$_86.JPG" width="150" height="150"/>(Image credits: <a href="https://i.ebayimg.com/00/s/NDUwWDQzNw==/z/wzIAAOSwdGFYq24r/$_86.JPG">here</a>)
+
 XTT - Xebia Technical Test
 ## Build 
 To build the app:
