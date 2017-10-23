@@ -4,14 +4,30 @@ import com.hzitoun.xtt.beans.Mower;
 import com.hzitoun.xtt.beans.Surface;
 import com.hzitoun.xtt.commands.Command;
 
+/**
+ * This command tells the mower to move forward.
+ * 
+ * @author hamed.zitoun
+ *
+ */
 public class MoveForwardCommand implements Command {
 
+	/**
+	 * the mower to control.
+	 */
 	private Mower mower;
 
-	public MoveForwardCommand(Mower mower) {
+	/**
+	 * Constructor.
+	 * 
+	 * @param mower
+	 *            the mower
+	 */
+	public MoveForwardCommand(final Mower mower) {
 		this.mower = mower;
 	}
 
+	@Override
 	public void execute(final Surface surface) {
 		mower.moveForward(surface);
 	}

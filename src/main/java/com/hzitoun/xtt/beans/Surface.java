@@ -1,7 +1,7 @@
 package com.hzitoun.xtt.beans;
 
 /**
- * This class represents the grass surface where the mowers should work.
+ * This class represents the grass surface where the mowers have to work.
  * 
  * @author hamed.zitoun
  *

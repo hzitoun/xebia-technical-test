@@ -23,92 +23,181 @@ import com.hzitoun.xtt.commands.impl.TurnLeftCommand;
 import com.hzitoun.xtt.commands.impl.TurnRightCommand;
 import com.hzitoun.xtt.enums.EnumDirection;
 import com.hzitoun.xtt.exceptions.MowerAppException;
-import com.hzitoun.xtt.parsers.IMowerParser;
-import com.hzitoun.xtt.parsers.impl.MowerParserIpml;
+import com.hzitoun.xtt.parsers.MowerAppInputParsingStrategy;
+import com.hzitoun.xtt.parsers.impl.FileMowerAppInputParsingStrategy;
 import com.hzitoun.xtt.utils.Utils;
 
-public class ParserTests {
+/**
+ * Tests the file parsing strategy.
+ * 
+ * @author hamed.zitoun
+ *
+ */
+public class FileParsingStrategyTest {
 
-	private IMowerParser parser;
+	/**
+	 * The strategy to test.
+	 */
+	private MowerAppInputParsingStrategy parserStrategy;
+	/**
+	 * A classloader used to open file from src/test/resources folder.
+	 */
 	private ClassLoader classLoader = getClass().getClassLoader();
 
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
 
+	/**
+	 * Creates a new instance for each unit test to prevents potential
+	 * dependency between unit tests.
+	 */
 	@Before
 	public void setUp() {
-		parser = new MowerParserIpml();
-
+		parserStrategy = new FileMowerAppInputParsingStrategy();
 	}
 
+	/**
+	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} throw an
+	 * exception when the file is missing.
+	 * 
+	 * @throws MowerAppException
+	 *             MowerAppException
+	 */
 	@Test
 	public void testFailWhenFileNotFound() throws MowerAppException {
 		exception.expect(MowerAppException.class);
 		exception.expectMessage(startsWith(Utils.getMessage("parsing.file.exception", "")));
-		parser.parseFile("NOTEXISTING_FILE.txt");
+		parserStrategy.parse("NOTEXISTING_FILE.txt");
 	}
 
+	/**
+	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} can
+	 * handle empty files.
+	 * 
+	 * @throws MowerAppException
+	 *             MowerAppException
+	 */
+	@Test
+	public void testDontFailWhenFileEmpty() throws MowerAppException {
+		try {
+			final String file = classLoader.getResource("empty_input.txt").getFile();
+			parserStrategy.parse(file);
+		} catch (final MowerAppException e) {
+			fail("Parser failed because file is empty!");
+		}
+	}
+
+	/**
+	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} throw an
+	 * exception when the surface is bad formed in file.
+	 * 
+	 * @throws MowerAppException
+	 *             MowerAppException
+	 */
 	@Test
 	public void testFailWhenSurfaceNotWellFormed() throws MowerAppException {
 		exception.expect(MowerAppException.class);
 		exception.expectMessage(equalTo(Utils.getMessage("parsing.line.error", 1)));
 		final String file = classLoader.getResource("bad_input_1.txt").getFile();
-		parser.parseFile(file);
+		parserStrategy.parse(file);
 	}
 
+	/**
+	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} throw an
+	 * exception when the mower's coordinates and/or direction are bad formed in
+	 * file.
+	 * 
+	 * @throws MowerAppException
+	 *             MowerAppException
+	 */
 	@Test
 	public void testFailWhenMowerNotWellFormed() throws MowerAppException {
 		exception.expect(MowerAppException.class);
 		exception.expectMessage(equalTo(Utils.getMessage("parsing.line.error", 2)));
 		final String file = classLoader.getResource("bad_input_2.txt").getFile();
-		parser.parseFile(file);
+		parserStrategy.parse(file);
 	}
 
+	/**
+	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} throw an
+	 * exception when the mower's commands are bad formed in file.
+	 * 
+	 * @throws MowerAppException
+	 *             MowerAppException
+	 */
 	@Test
 	public void testFailWhenCommandsNotWellFormed() throws MowerAppException {
 		exception.expect(MowerAppException.class);
 		exception.expectMessage(equalTo(Utils.getMessage("parsing.line.error", 3)));
 		final String file = classLoader.getResource("bad_input_3.txt").getFile();
-		parser.parseFile(file);
+		parserStrategy.parse(file);
 	}
-
+	
+	/**
+	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} throw an
+	 * exception when file contains empty line.
+	 * 
+	 * @throws MowerAppException
+	 *             MowerAppException
+	 */
 	@Test
-	public void testFailWhenFileEmpty() throws MowerAppException {
+	public void testFailWhenFileContainsEmptyLine() throws MowerAppException {
 		exception.expect(MowerAppException.class);
-		exception.expectMessage(equalTo(Utils.getMessage("parsing.file.empty.error")));
-		final String file = classLoader.getResource("empty_input.txt").getFile();
-		parser.parseFile(file);
+		exception.expectMessage(equalTo(Utils.getMessage("parsing.line.error", 2)));
+		final String file = classLoader.getResource("bad_input_4.txt").getFile();
+		parserStrategy.parse(file);
 	}
 
+	/**
+	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} do not
+	 * throw an exception when the file is well formed.
+	 * 
+	 * @throws MowerAppException
+	 *             MowerAppException
+	 */
 	@Test
 	public void testSuccessWhenFileIfWellFormed() {
 		try {
 			final String file = classLoader.getResource("good_input.txt").getFile();
-			parser.parseFile(file);
-		} catch (MowerAppException e) {
-			fail("Parser can't parse a well-formed file!");
+			parserStrategy.parse(file);
+		} catch (final MowerAppException e) {
+			fail("Shoudn't fail. Parser can't parse a well-formed file!");
 		}
 	}
 
+	/**
+	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} parse
+	 * well the surface's height and width.
+	 * 
+	 * @throws MowerAppException
+	 *             MowerAppException
+	 */
 	@Test
 	public void testSurfaceParsingSuccessWhenFileIfWellFormed() {
 		try {
 			final String file = classLoader.getResource("good_input.txt").getFile();
-			final MowerAppCharacteristics characts = parser.parseFile(file);
+			final MowerAppCharacteristics characts = parserStrategy.parse(file);
 			assertNotNull(characts);
 			assertNotNull(characts.getSurface());
 			assertThat(characts.getSurface().getHeight(), equalTo(5));
 			assertThat(characts.getSurface().getWidth(), equalTo(5));
-		} catch (MowerAppException e) {
-			fail("Parser can't parse a well-formed file!");
+		} catch (final MowerAppException e) {
+			fail("Shoudn't fail. Parser can't parse a well-formed file!");
 		}
 	}
 
+	/**
+	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} parse
+	 * well the mowers coordinates and orientations.
+	 * 
+	 * @throws MowerAppException
+	 *             MowerAppException
+	 */
 	@Test
 	public void testMowerParsingSuccessWhenFileIfWellFormed() {
 		try {
 			final String file = classLoader.getResource("good_input.txt").getFile();
-			final MowerAppCharacteristics characts = parser.parseFile(file);
+			final MowerAppCharacteristics characts = parserStrategy.parse(file);
 			assertNotNull(characts);
 			assertNotNull(characts.getMowers());
 			assertThat(characts.getMowers().size(), equalTo(2));
@@ -123,16 +212,23 @@ public class ParserTests {
 			assertThat(secondMower.getPosition().getX(), equalTo(3));
 			assertThat(secondMower.getPosition().getY(), equalTo(3));
 			assertThat(secondMower.getDirection(), equalTo(EnumDirection.E));
-		} catch (MowerAppException e) {
-			fail("Parser can't parse a well-formed file!");
+		} catch (final MowerAppException e) {
+			fail("Shoudn't fail. Parser can't parse a well-formed file!");
 		}
 	}
 
+	/**
+	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} parse
+	 * well the mowers actions.
+	 * 
+	 * @throws MowerAppException
+	 *             MowerAppException
+	 */
 	@Test
 	public void testCommandsParsingSuccessWhenFileIfWellFormed() {
 		try {
 			final String file = classLoader.getResource("good_input.txt").getFile();
-			final MowerAppCharacteristics characts = parser.parseFile(file);
+			final MowerAppCharacteristics characts = parserStrategy.parse(file);
 			assertNotNull(characts);
 			final Iterator<List<Command>> iterator = characts.getMowers().values().iterator();
 			final List<Command> firstMower = iterator.next();
@@ -147,8 +243,8 @@ public class ParserTests {
 			assertThat(secondMower.get(0), instanceOf(MoveForwardCommand.class));
 			assertThat(secondMower.get(1), instanceOf(TurnRightCommand.class));
 			assertThat(secondMower.get(2), instanceOf(TurnLeftCommand.class));
-		} catch (MowerAppException e) {
-			fail("Parser can't parse a well-formed file!");
+		} catch (final MowerAppException e) {
+			fail("Shoudn't fail. Parser can't parse a well-formed file!");
 		}
 	}
 }

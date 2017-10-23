@@ -42,10 +42,8 @@ public class Mower {
 	/**
 	 * Turns the mower 90° depending on its direction.
 	 * 
-	 * @param surface
-	 *            the surface where the mower should move.
 	 */
-	public void turnLeft(final Surface surface) {
+	public void turnLeft() {
 		if (EnumDirection.N.equals(direction)) {
 			direction = EnumDirection.W;
 		} else if (EnumDirection.S.equals(direction)) {
@@ -60,10 +58,8 @@ public class Mower {
 	/**
 	 * Turns the mower 90° depending on its direction.
 	 * 
-	 * @param surface
-	 *            the surface where the mower should move.
 	 */
-	public void turnRight(final Surface surface) {
+	public void turnRight() {
 		if (EnumDirection.N.equals(direction)) {
 			direction = EnumDirection.E;
 		} else if (EnumDirection.S.equals(direction)) {
@@ -92,12 +88,6 @@ public class Mower {
 			position.setX(position.getX() - 1);
 		}
 	}
-	
-	
-
-	public void printPositionAndOrientation() {
-		System.out.println(String.format("%d %d %s", position.getX(), position.getY(), direction));
-	}
 
 	/**
 	 * @return the direction
@@ -107,7 +97,8 @@ public class Mower {
 	}
 
 	/**
-	 * @param direction the direction to set
+	 * @param direction
+	 *            the direction to set
 	 */
 	public final void setDirection(EnumDirection direction) {
 		this.direction = direction;
@@ -121,7 +112,8 @@ public class Mower {
 	}
 
 	/**
-	 * @param position the position to set
+	 * @param position
+	 *            the position to set
 	 */
 	public final void setPosition(Position position) {
 		this.position = position;
@@ -135,7 +127,8 @@ public class Mower {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public final void setId(String id) {
 		this.id = id;
@@ -143,15 +136,7 @@ public class Mower {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Mower [direction=");
-		builder.append(direction);
-		builder.append(", position=");
-		builder.append(position);
-		builder.append(", id=");
-		builder.append(id);
-		builder.append("]");
-		return builder.toString();
+		return String.format("%d %d %s", position.getX(), position.getY(), direction);
 	}
 
 }

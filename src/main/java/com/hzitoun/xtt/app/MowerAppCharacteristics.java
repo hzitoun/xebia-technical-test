@@ -7,21 +7,36 @@ import com.hzitoun.xtt.beans.Mower;
 import com.hzitoun.xtt.beans.Surface;
 import com.hzitoun.xtt.commands.Command;
 
+/**
+ * This class holds the mower app's Characteristics
+ * 
+ * @author hamed.zitoun
+ *
+ */
 public class MowerAppCharacteristics {
 
+	/**
+	 * The grass surface where the mowers have to work.
+	 */
 	private Surface surface;
+	/**
+	 * A map of mower and list command to execute.
+	 */
 	private Map<Mower, List<Command>> mowers;
 
 	/**
+	 * Contructor.
+	 * 
 	 * @param surface
+	 *            the surface
 	 * @param mowers
+	 *            the mowers
 	 */
 	public MowerAppCharacteristics(final Surface surface, final Map<Mower, List<Command>> mowers) {
 		super();
 		this.surface = surface;
 		this.mowers = mowers;
 	}
-	
 
 	/**
 	 * @return the surface
@@ -30,16 +45,13 @@ public class MowerAppCharacteristics {
 		return surface;
 	}
 
-
-
 	/**
-	 * @param surface the surface to set
+	 * @param surface
+	 *            the surface to set
 	 */
 	public final void setSurface(Surface surface) {
 		this.surface = surface;
 	}
-
-
 
 	/**
 	 * @return the mowers
@@ -48,16 +60,13 @@ public class MowerAppCharacteristics {
 		return mowers;
 	}
 
-
-
 	/**
-	 * @param mowers the mowers to set
+	 * @param mowers
+	 *            the mowers to set
 	 */
 	public final void setMowers(Map<Mower, List<Command>> mowers) {
 		this.mowers = mowers;
 	}
-
-
 
 	@Override
 	public String toString() {

@@ -3,23 +3,30 @@ package com.hzitoun.xtt;
 import com.hzitoun.xtt.app.MowerApp;
 import com.hzitoun.xtt.app.MowerAppFactory;
 import com.hzitoun.xtt.exceptions.MowerAppException;
-import com.hzitoun.xtt.parsers.IMowerParser;
-import com.hzitoun.xtt.parsers.impl.MowerParserIpml;
+import com.hzitoun.xtt.parsers.MowerAppInputParsingStrategy;
+import com.hzitoun.xtt.parsers.impl.FileMowerAppInputParsingStrategy;
 
+/**
+ * The jar's entry point to start the program; the mower app in our case.
+ * 
+ * @author hamed.zitoun
+ *
+ */
 public class XttApplication {
 
 	public static void main(String[] args) {
 		if (args.length == 0) {
-			System.err.println("Input file must be specified as an argument for this jar!");
+			System.err.println("Input file must be specified as an argument for this program.");
 			return;
 		}
-		final String fileInput = args[0];
-		final IMowerParser parser = new MowerParserIpml();
-		final MowerApp app = MowerAppFactory.getInstance(parser);
+		final String input = args[0];
+		final MowerApp app = MowerAppFactory.createApp();
+		final MowerAppInputParsingStrategy strategy = new FileMowerAppInputParsingStrategy();
+		app.setParsingStrategy(strategy);
 		try {
-			app.start(fileInput);
+			app.start(input);
 		} catch (final MowerAppException e) {
-			System.err.println(e);
+			System.err.println("An exception has occurred when running the application " + e);
 		}
 	}
 }

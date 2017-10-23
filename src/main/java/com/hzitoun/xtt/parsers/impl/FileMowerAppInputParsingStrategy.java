@@ -22,27 +22,41 @@ import com.hzitoun.xtt.commands.impl.TurnRightCommand;
 import com.hzitoun.xtt.enums.EnumAction;
 import com.hzitoun.xtt.enums.EnumDirection;
 import com.hzitoun.xtt.exceptions.MowerAppException;
-import com.hzitoun.xtt.parsers.IMowerParser;
+import com.hzitoun.xtt.parsers.MowerAppInputParsingStrategy;
 import com.hzitoun.xtt.utils.Utils;
 
-public class MowerParserIpml implements IMowerParser {
+/**
+ * This class is an Local file parsing strategy implementation.
+ * 
+ * @author hamed.zitoun
+ *
+ */
+public class FileMowerAppInputParsingStrategy implements MowerAppInputParsingStrategy {
 
+	private static final String PARSING_LINE_ERROR_KEY = "parsing.line.error";
+	/**
+	 * Used to parse mower's position and direction.
+	 */
 	private static final String MOWER_SEPARATOR = " ";
+	/**
+	 * Used to parse a surface's height and width.
+	 */
+	private static final String SURFACE_SEPARATOR = " ";
 
 	@Override
-	public final MowerAppCharacteristics parseFile(final String fileUrl) throws MowerAppException {
+	public final MowerAppCharacteristics parse(final String fileUrl) throws MowerAppException {
 		final Path inputFile = new File(fileUrl).toPath();
 		Surface surface = null;
 		Mower mower = null;
 		final Map<Mower, List<Command>> mowers = new LinkedHashMap<>();
 		final List<String> lines = readLinesFromFile(inputFile);
 		if (Utils.isEmpty(lines)) {
-			throw new MowerAppException(Utils.getMessage("parsing.file.empty.error"));
+			return new MowerAppCharacteristics(surface, mowers);
 		}
 		for (int index = 0; index < lines.size(); index++) {
 			final String line = lines.get(index);
 			if (Utils.isBlank(line)) {
-				throw new MowerAppException(Utils.getMessage("parsing.line.error", (index + 1)));
+				throw new MowerAppException(Utils.getMessage(PARSING_LINE_ERROR_KEY, (index + 1)));
 			}
 			if (index == 0) {
 				surface = parseSurface(index, line);
@@ -58,17 +72,38 @@ public class MowerParserIpml implements IMowerParser {
 		return new MowerAppCharacteristics(surface, mowers);
 	}
 
-	@Override
+	/**
+	 * Constructs a surface object from the parsed line if possible (the file is
+	 * well-formed).
+	 * 
+	 * @param index
+	 *            the index of the line in the file.
+	 * @param line
+	 *            the line to parse
+	 * @return A Surface
+	 * @throws MowerAppException
+	 */
 	public final Surface parseSurface(final int index, final String line) throws MowerAppException {
-		final String[] resolution = line.split(MOWER_SEPARATOR);
+		final String[] resolution = line.split(SURFACE_SEPARATOR);
 		if (resolution.length == 2 && Utils.isNumeric(resolution[0]) && Utils.isNumeric(resolution[1])) {
 			return new Surface(Integer.parseInt(resolution[0]), Integer.parseInt(resolution[1]));
 		} else {
-			throw new MowerAppException(Utils.getMessage("parsing.line.error", (index + 1)));
+			throw new MowerAppException(Utils.getMessage(PARSING_LINE_ERROR_KEY, (index + 1)));
 		}
 	}
 
-	@Override
+	/**
+	 * Constructs a mower object from the parsed line if possible (if the file
+	 * is well-formed).
+	 * 
+	 * @param index
+	 *            the index of the line in the file
+	 * @param line
+	 *            the line to parse.
+	 * @return A mower
+	 * @throws MowerAppException
+	 *             thrown the file is not well-formed.
+	 */
 	public final Mower parseMower(final int index, final String line) throws MowerAppException {
 		final String[] mowerCaracteristics = line.split(MOWER_SEPARATOR);
 		if (mowerCaracteristics.length == 3 && Utils.isNumeric(mowerCaracteristics[0])
@@ -79,17 +114,29 @@ public class MowerParserIpml implements IMowerParser {
 					Integer.parseInt(mowerCaracteristics[1]));
 			return new Mower(position, direction);
 		} else {
-			throw new MowerAppException(Utils.getMessage("parsing.line.error", (index + 1)));
+			throw new MowerAppException(Utils.getMessage(PARSING_LINE_ERROR_KEY, (index + 1)));
 		}
 	}
 
-	@Override
+	/**
+	 * Constructs a list of commands from the parsed line.
+	 * 
+	 * @param mower
+	 *            the mower to use to whom we should set the command.
+	 * @param index
+	 *            the index of the line to parse in the file.
+	 * @param line
+	 *            the line to parse.
+	 * @return <code>{@literal List<Command>}</code>
+	 * @throws MowerAppException
+	 *             thrown the file is not well-formed.
+	 */
 	public final List<Command> parseMowerCommands(final Mower mower, int index, final String line)
 			throws MowerAppException {
 		final List<Command> commands = new ArrayList<>();
 		for (final char commandAsChar : line.toCharArray()) {
 			if (!EnumAction.isActionValid(commandAsChar)) {
-				throw new MowerAppException(Utils.getMessage("parsing.line.error", (index + 1)));
+				throw new MowerAppException(Utils.getMessage(PARSING_LINE_ERROR_KEY, (index + 1)));
 			}
 			final EnumAction action = EnumAction.valueOf(String.valueOf(commandAsChar));
 			if (EnumAction.A.equals(action)) {
@@ -103,10 +150,20 @@ public class MowerParserIpml implements IMowerParser {
 		return commands;
 	}
 
+	/**
+	 * Contructs a list of lines read from the file.
+	 * 
+	 * @param inputPath
+	 *            file's path.
+	 * @return file's lines as a List of string.
+	 * @throws MowerAppException
+	 *             thrown the file is is not present or if a technical exception
+	 *             has occurred when attempting to read the file.
+	 */
 	private final List<String> readLinesFromFile(final Path inputPath) throws MowerAppException {
 		try (final Stream<String> stream = Files.lines(inputPath)) {
 			return stream.collect(Collectors.toList());
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new MowerAppException(Utils.getMessage("parsing.file.exception", inputPath));
 		}
 	}
