@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/hzitoun/xebia-technical-test.svg?branch=master)](https://travis-ci.org/hzitoun/xebia-technical-test)
 # Xebia-Technical-Test
 XTT - Xebia Technical Test
 ## Build 
