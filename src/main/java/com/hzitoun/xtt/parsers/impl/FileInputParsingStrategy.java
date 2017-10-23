@@ -83,7 +83,7 @@ public class FileInputParsingStrategy implements InputParsingStrategy {
 	 * @return A Surface
 	 * @throws MowerAppException
 	 */
-	public final Surface parseSurface(final int index, final String line) throws MowerAppException {
+	private final Surface parseSurface(final int index, final String line) throws MowerAppException {
 		final String[] resolution = line.split(SURFACE_SEPARATOR);
 		if (resolution.length == 2 && Utils.isNumeric(resolution[0]) && Utils.isNumeric(resolution[1])) {
 			return new Surface(Integer.parseInt(resolution[0]), Integer.parseInt(resolution[1]));
@@ -104,7 +104,7 @@ public class FileInputParsingStrategy implements InputParsingStrategy {
 	 * @throws MowerAppException
 	 *             thrown the file is not well-formed.
 	 */
-	public final Mower parseMower(final int index, final String line) throws MowerAppException {
+	private final Mower parseMower(final int index, final String line) throws MowerAppException {
 		final String[] mowerCaracteristics = line.split(MOWER_SEPARATOR);
 		if (mowerCaracteristics.length == 3 && Utils.isNumeric(mowerCaracteristics[0])
 				&& Utils.isNumeric(mowerCaracteristics[1]) && Utils.isAlpha(mowerCaracteristics[2])
@@ -131,7 +131,7 @@ public class FileInputParsingStrategy implements InputParsingStrategy {
 	 * @throws MowerAppException
 	 *             thrown the file is not well-formed.
 	 */
-	public final List<Command> parseMowerCommands(final Mower mower, int index, final String line)
+	private final List<Command> parseMowerCommands(final Mower mower, int index, final String line)
 			throws MowerAppException {
 		final List<Command> commands = new ArrayList<>();
 		for (final char commandAsChar : line.toCharArray()) {
