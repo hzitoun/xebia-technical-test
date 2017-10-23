@@ -7,7 +7,7 @@ import com.hzitoun.xtt.beans.Mower;
 import com.hzitoun.xtt.beans.Surface;
 import com.hzitoun.xtt.commands.Command;
 import com.hzitoun.xtt.exceptions.MowerAppException;
-import com.hzitoun.xtt.parsers.MowerAppInputParsingStrategy;
+import com.hzitoun.xtt.parsers.InputParsingStrategy;
 import com.hzitoun.xtt.utils.Utils;
 
 /**
@@ -21,7 +21,7 @@ public class MowerApp {
 	/**
 	 * The strategy to use to parse the app inputs.
 	 */
-	private MowerAppInputParsingStrategy parsingStrategy;
+	private InputParsingStrategy parsingStrategy;
 
 	/**
 	 * Gives the possibility to change the parsing strategy at runtime.
@@ -29,7 +29,7 @@ public class MowerApp {
 	 * @param strategy
 	 *            strategy to use to parse the app inputs
 	 */
-	public void setParsingStrategy(final MowerAppInputParsingStrategy strategy) {
+	public void setParsingStrategy(final InputParsingStrategy strategy) {
 		this.parsingStrategy = strategy;
 	}
 

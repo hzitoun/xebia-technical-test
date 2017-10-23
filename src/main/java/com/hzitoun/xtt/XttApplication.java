@@ -3,8 +3,8 @@ package com.hzitoun.xtt;
 import com.hzitoun.xtt.app.MowerApp;
 import com.hzitoun.xtt.app.MowerAppFactory;
 import com.hzitoun.xtt.exceptions.MowerAppException;
-import com.hzitoun.xtt.parsers.MowerAppInputParsingStrategy;
-import com.hzitoun.xtt.parsers.impl.FileMowerAppInputParsingStrategy;
+import com.hzitoun.xtt.parsers.InputParsingStrategy;
+import com.hzitoun.xtt.parsers.impl.FileInputParsingStrategy;
 
 /**
  * The jar's entry point to start the program; the mower app in our case.
@@ -21,7 +21,7 @@ public class XttApplication {
 		}
 		final String input = args[0];
 		final MowerApp app = MowerAppFactory.createApp();
-		final MowerAppInputParsingStrategy strategy = new FileMowerAppInputParsingStrategy();
+		final InputParsingStrategy strategy = new FileInputParsingStrategy();
 		app.setParsingStrategy(strategy);
 		try {
 			app.start(input);

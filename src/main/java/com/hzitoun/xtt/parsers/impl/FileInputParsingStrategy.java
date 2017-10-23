@@ -22,7 +22,7 @@ import com.hzitoun.xtt.commands.impl.TurnRightCommand;
 import com.hzitoun.xtt.enums.EnumAction;
 import com.hzitoun.xtt.enums.EnumDirection;
 import com.hzitoun.xtt.exceptions.MowerAppException;
-import com.hzitoun.xtt.parsers.MowerAppInputParsingStrategy;
+import com.hzitoun.xtt.parsers.InputParsingStrategy;
 import com.hzitoun.xtt.utils.Utils;
 
 /**
@@ -31,7 +31,7 @@ import com.hzitoun.xtt.utils.Utils;
  * @author hamed.zitoun
  *
  */
-public class FileMowerAppInputParsingStrategy implements MowerAppInputParsingStrategy {
+public class FileInputParsingStrategy implements InputParsingStrategy {
 
 	private static final String PARSING_LINE_ERROR_KEY = "parsing.line.error";
 	/**

@@ -10,7 +10,7 @@ import com.hzitoun.xtt.exceptions.MowerAppException;
  * @author hamed.zitoun
  *
  */
-public interface MowerAppInputParsingStrategy {
+public interface InputParsingStrategy {
 	/**
 	 * 
 	 * Parses the inputs needed to fire the mower application.

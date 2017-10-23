@@ -23,8 +23,8 @@ import com.hzitoun.xtt.commands.impl.TurnLeftCommand;
 import com.hzitoun.xtt.commands.impl.TurnRightCommand;
 import com.hzitoun.xtt.enums.EnumDirection;
 import com.hzitoun.xtt.exceptions.MowerAppException;
-import com.hzitoun.xtt.parsers.MowerAppInputParsingStrategy;
-import com.hzitoun.xtt.parsers.impl.FileMowerAppInputParsingStrategy;
+import com.hzitoun.xtt.parsers.InputParsingStrategy;
+import com.hzitoun.xtt.parsers.impl.FileInputParsingStrategy;
 import com.hzitoun.xtt.utils.Utils;
 
 /**
@@ -38,7 +38,7 @@ public class FileParsingStrategyTest {
 	/**
 	 * The strategy to test.
 	 */
-	private MowerAppInputParsingStrategy parserStrategy;
+	private InputParsingStrategy parserStrategy;
 	/**
 	 * A classloader used to open file from src/test/resources folder.
 	 */
@@ -53,11 +53,11 @@ public class FileParsingStrategyTest {
 	 */
 	@Before
 	public void setUp() {
-		parserStrategy = new FileMowerAppInputParsingStrategy();
+		parserStrategy = new FileInputParsingStrategy();
 	}
 
 	/**
-	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} throw an
+	 * Asserts that {@link InputParsingStrategy#parse(String)} throw an
 	 * exception when the file is missing.
 	 * 
 	 * @throws MowerAppException
@@ -71,7 +71,7 @@ public class FileParsingStrategyTest {
 	}
 
 	/**
-	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} can
+	 * Asserts that {@link InputParsingStrategy#parse(String)} can
 	 * handle empty files.
 	 * 
 	 * @throws MowerAppException
@@ -88,7 +88,7 @@ public class FileParsingStrategyTest {
 	}
 
 	/**
-	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} throw an
+	 * Asserts that {@link InputParsingStrategy#parse(String)} throw an
 	 * exception when the surface is bad formed in file.
 	 * 
 	 * @throws MowerAppException
@@ -103,7 +103,7 @@ public class FileParsingStrategyTest {
 	}
 
 	/**
-	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} throw an
+	 * Asserts that {@link InputParsingStrategy#parse(String)} throw an
 	 * exception when the mower's coordinates and/or direction are bad formed in
 	 * file.
 	 * 
@@ -119,7 +119,7 @@ public class FileParsingStrategyTest {
 	}
 
 	/**
-	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} throw an
+	 * Asserts that {@link InputParsingStrategy#parse(String)} throw an
 	 * exception when the mower's commands are bad formed in file.
 	 * 
 	 * @throws MowerAppException
@@ -134,7 +134,7 @@ public class FileParsingStrategyTest {
 	}
 	
 	/**
-	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} throw an
+	 * Asserts that {@link InputParsingStrategy#parse(String)} throw an
 	 * exception when file contains empty line.
 	 * 
 	 * @throws MowerAppException
@@ -149,7 +149,7 @@ public class FileParsingStrategyTest {
 	}
 
 	/**
-	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} do not
+	 * Asserts that {@link InputParsingStrategy#parse(String)} do not
 	 * throw an exception when the file is well formed.
 	 * 
 	 * @throws MowerAppException
@@ -166,7 +166,7 @@ public class FileParsingStrategyTest {
 	}
 
 	/**
-	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} parse
+	 * Asserts that {@link InputParsingStrategy#parse(String)} parse
 	 * well the surface's height and width.
 	 * 
 	 * @throws MowerAppException
@@ -187,7 +187,7 @@ public class FileParsingStrategyTest {
 	}
 
 	/**
-	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} parse
+	 * Asserts that {@link InputParsingStrategy#parse(String)} parse
 	 * well the mowers coordinates and orientations.
 	 * 
 	 * @throws MowerAppException
@@ -218,7 +218,7 @@ public class FileParsingStrategyTest {
 	}
 
 	/**
-	 * Asserts that {@link MowerAppInputParsingStrategy#parse(String)} parse
+	 * Asserts that {@link InputParsingStrategy#parse(String)} parse
 	 * well the mowers actions.
 	 * 
 	 * @throws MowerAppException
