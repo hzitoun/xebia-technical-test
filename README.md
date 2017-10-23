@@ -1,6 +1,8 @@
 # Xebia-technical-test
 XTT - Xebia Technical Test
 ## Build 
-> ```mvnw clean install```
+To build the app run the following command:
+```mvnw clean install```
 ## Run
-> ```java -jar target\xtt-0.0.1-SNAPSHOT.jar ./docs/input.txt```
+To execute the app run the following command after replacing <PATH_TO_INPUT_FILE>(./docs/input.txt for example)
+```java -jar target\xtt-by-hz.jar <PATH_TO_INPUT_FILE>```

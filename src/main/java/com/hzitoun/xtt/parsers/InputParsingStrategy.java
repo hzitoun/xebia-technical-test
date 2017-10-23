@@ -4,8 +4,8 @@ import com.hzitoun.xtt.app.MowerAppCharacteristics;
 import com.hzitoun.xtt.exceptions.MowerAppException;
 
 /**
- * Abstract Parsing strategy. It is the mower app the possibility to change
- * parsing strategy at runtime (so without need to modify the code).
+ * Abstract Parsing strategy. It gives the mower app the possibility to change
+ * parsing strategy at runtime (no need to modify the code).
  * 
  * @author hamed.zitoun
  *

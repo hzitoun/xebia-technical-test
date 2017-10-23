@@ -26,7 +26,7 @@ import com.hzitoun.xtt.parsers.InputParsingStrategy;
 import com.hzitoun.xtt.utils.Utils;
 
 /**
- * This class is an Local file parsing strategy implementation.
+ * A Local file parsing strategy implementation.
  * 
  * @author hamed.zitoun
  *
