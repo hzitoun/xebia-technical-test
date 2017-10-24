@@ -1,18 +1,17 @@
-FROM java:8 
+FROM openjdk:8
 
-#update packages and install maven
+#update packages
 RUN apt-get update
-RUN apt-get install -y maven
 
 WORKDIR /xtt
 
-# Prepare by downloading dependencies
+#Adding source
 ADD pom.xml /xtt/pom.xml
-RUN ["mvn", "dependency:resolve"]
-RUN ["mvn", "verify"]
-
-# Adding source, compile and package into a fat jar
 ADD src /xtt/src
-RUN ["mvn", "clean install"]
+ADD .mvn /xtt/.mvn
+ADD mvnw /xtt/mvnw
 
-CMD ["/usr/lib/jvm/java-8-openjdk-amd64/bin/java", "-jar", "target/xtt-by-hz.jar"]
+#compile and package into a fat jar
+RUN ./mvnw clean install
+
+CMD ["java", "-jar", "target/xtt-by-hz.jar", "./data/input.txt"]
