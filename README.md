@@ -15,3 +15,18 @@ To execute the app run the following command after setting <PATH_TO_INPUT_FILE> 
 ```console
 java -jar target\xtt-by-hz.jar <PATH_TO_INPUT_FILE>
 ```
+
+## Fan Of Docker?
+Me too!
+### Build the Docker image
+
+```console
+docker build -t hzitoun/xtt
+```
+
+### Run the container
+
+```console
+docker run -d hzitoun/xtt ./docs/input.txt
+```
+
