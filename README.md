@@ -1,3 +1,4 @@
++[![Build Status](https://travis-ci.org/hzitoun/xebia-technical-test.svg?branch=master)](https://travis-ci.org/hzitoun/xebia-technical-test)
 [![codecov](https://codecov.io/gh/hzitoun/xebia-technical-test/branch/master/graph/badge.svg)](https://codecov.io/gh/hzitoun/xebia-technical-test)
 # Xebia-Technical-Test
 
