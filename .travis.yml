@@ -1,3 +1,5 @@
 language: java
 install: true
-script: chmod +x ./mvnw && ./mvnw clean install
+script: chmod +x ./mvnw && ./mvnw clean install cobertura:cobertura
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
