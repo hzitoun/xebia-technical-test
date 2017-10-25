@@ -7,7 +7,18 @@ package com.hzitoun.xtt.enums;
  *
  */
 public enum EnumAction {
-	A('A'), G('G'), D('D');
+	/**
+	 * Move forward action.
+	 */
+	A('A'),
+	/**
+	 * Turn left action.
+	 */
+	G('G'), 
+	/**
+	 * Turn right action.
+	 */
+	D('D');
 
 	/**
 	 * An action's label.
