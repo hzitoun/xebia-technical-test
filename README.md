@@ -11,7 +11,7 @@ To build the app and run the unit tests:
  mvnw clean install
  ```
 ## Run
-To execute the app run the following command after setting <PATH_TO_INPUT_FILE> (./docs/input.txt for example):
+To execute the app run the following command after replacing ```<PATH_TO_INPUT_FILE>``` (./docs/input.txt for example):
 ```console
 java -jar target\xtt-by-hz.jar <PATH_TO_INPUT_FILE>
 ```
@@ -24,6 +24,8 @@ docker build -t hzitoun/xtt .
 ```
 
 ### Run the container
+
+After replacing ```<ABSOLUTE_PATH_TO_FOLDER_CONTAINING_INPUT.TXT>```, run the following command:
 
 ```console
 docker run -v <ABSOLUTE_PATH_TO_FOLDER_CONTAINING_INPUT.TXT>:/xtt/data hzitoun/xtt
